@@ -1,113 +1,180 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
-namespace XmlDataWrench;
+namespace Inspired.Codes.XmlDataWrench;
 public class XmlSanitizer
 {
-    private int Offset { get; set; }
+    public const double FactorForOutputSize = 1.2; // estimate required buffer
+
+    private int HeadIndex { get; set; }
     private char[] Original { get; } // ref
-    private int OriginalLen { get; }
+    private int LastIndex { get; set; }
     private StringBuilder Sanitized { get; }
+    private bool CanReadNextChar => HeadIndex < LastIndex;
 
     public XmlSanitizer(IEnumerable<char> original)
     {
-        ArgumentNullException.ThrowIfNull(original);
-
-        if (original.Count() < "<a><a/>".Length) throw new InvalidXmlInput();
+        if (original is null) throw new ArgumentNullException(nameof(original));
 
         Original = original.ToArray();
-        OriginalLen = Original.Count();
-        Offset = 0;
-        Sanitized = new StringBuilder((int)(original.Count() * 1.5));
+        HeadIndex = 0;
+        LastIndex = Original.Length - 1;
+        Sanitized = new StringBuilder((int)(original.Count() * FactorForOutputSize));
     }
 
     public string GetSanitized() => Sanitized.ToString();
 
-    public IEnumerable<char> GetOriginal() => Original;
 
     /// <summary>
     /// sanitizes data block, assuming that TAGs are ok <br/>
     /// no validation for open-close consitency
     /// no sanitizing of data that looks like a &lt;TAG&gt;
     /// </summary>
-    /// <exception cref="InvalidXmlInput"></exception>
+    /// <exception cref="InvalidXmlStartException"></exception>
     public void RunXmlSanitizer()
     {
-        while (char.IsWhiteSpace(Original[Offset]))
-            Offset++;
+        SkipLeadingWhiteChars();
 
-        char c = Original[Offset];
-        if (c != '<')
-            throw new InvalidXmlInput();
+        SkipTrailingWhiteChars();
 
-        AddChar(c);
-        ParseTagAndRest();
+        ThrowIfTooShort();
+
+        while (CanReadNextChar)
+            ParseTagAndRest();
     }
 
+    /// <summary>
+    /// minimum length of xml data must be 7 chars
+    /// </summary>
+    /// <exception cref="InvalidXmlTooSmallException"></exception>
+    private void ThrowIfTooShort()
+    {
+        if ((LastIndex - HeadIndex) <= 7)
+            throw new InvalidXmlTooSmallException();
+    }
+
+    /// <summary>
+    /// set head index to first non-white char index<br/>
+    /// does noch check char is valid start tag char
+    /// </summary>
+    /// <returns>index of first non-whitespace char</returns>
+    public int SkipLeadingWhiteChars()
+    {
+        while (CanReadNextChar)
+        {
+            if (char.IsWhiteSpace(Original[HeadIndex]))
+                HeadIndex++;
+            else
+                break;
+        }
+        return HeadIndex;
+    }
+
+    /// <summary>
+    /// set last index to last close tag char '>' only followed by white-space chars
+    /// </summary>
+    /// <returns>index of last tag close char before whitespace chars</returns>
+    /// <exception cref="InvalidXmlEndException"></exception>
+    public int SkipTrailingWhiteChars()
+    {
+        int tail = LastIndex;
+
+        while (char.IsWhiteSpace(Original[tail]))
+            tail--;
+
+        // expected tag end char '>'
+        if (Original[tail] != '>')
+            throw new InvalidXmlEndException();
+
+        LastIndex = tail;
+        return LastIndex;
+    }
+
+    /// <summary>
+    /// copies tag to sanitized buffer <br/>
+    /// and sanitizes data block between tags
+    /// </summary>
+    /// <exception cref="InvalidXmlTagException"></exception>
     private void ParseTagAndRest()
     {
+        char c = Original[HeadIndex];
+        if (c != '<')
+            throw new InvalidXmlTagException();
 
-        while ((Offset + 1) < OriginalLen)
+        AddChar(Original[HeadIndex]);
+        while (CanReadNextChar)
         {
-            Offset++;
-            char c = Original[Offset];
+            HeadIndex++;
+            c = Original[HeadIndex];
 
-            if (c is not '<' and not '>')
-            {
-                AddChar(c);
-                continue;
-            }
             if (c is '<')
             {
-                AddLessThan();
-                continue;
+                throw new InvalidXmlTagException();
             }
             if (c is '>')
             {
                 AddChar(c);
                 ParseDataBlock();
+                return;
+            }
+            else //(c is not '<' and not '>')
+            {
+                AddChar(c);
+                continue;
             }
         }
     }
 
     private void ParseDataBlock()
     {
-        //bool nextIsTagOpen;
+        if (!CanReadNextChar)
+            return;
 
-        while ((Offset + 1) < OriginalLen)
+        while (CanReadNextChar)
         {
-            Offset++;
-            char c = Original[Offset];
+            HeadIndex++;
+            char c = Original[HeadIndex];
 
-            if (c is not '<' and not '>')
+            if (c is '&')
             {
-                AddChar(c);
+                AddAmpersand();
+                continue;
             }
-            if (c is '<')
-            {
-                if (NextBracketIsTagOpen(Offset)) // can consume much resources
-                {
-                    AddLessThan();
-                }
-                else
-                {
-                    AddChar(c);
-                    return;
-                }
-            }
+
             if (c is '>')
             {
                 AddGreaterThan();
+                continue;
             }
+
+            if (c is '<')
+            {
+                if (NextBracketIsTagOpen(HeadIndex))  // TODO: optimize, can consume much resources
+                {
+                    AddLessThan();
+                    continue;
+                }
+                else // c == '<', return to parse tag
+                {
+                    return;
+                }
+            }
+
+            AddChar(c);
         }
+
+        throw new InvalidXmlEndException();
     }
 
-    private bool NextBracketIsTagOpen(int offset, string tagName = "")
+
+
+    /// <summary>
+    /// looks ahead, if in following sequence, the next char is a '<', tag open char
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    private bool NextBracketIsTagOpen(int offset)
     {
-        while ((offset + 1) < OriginalLen)
+        while ((offset + 1) < LastIndex)
         {
             offset++;
             char c = Original[offset];
@@ -118,6 +185,7 @@ public class XmlSanitizer
     }
 
     private void AddChar(char c) => Sanitized.Append(c);
+    private void AddAmpersand() => Sanitized.Append("&amp;");
     private void AddLessThan() => Sanitized.Append("&lt;");
     private void AddGreaterThan() => Sanitized.Append("&gt;");
 }
