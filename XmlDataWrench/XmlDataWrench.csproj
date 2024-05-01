@@ -45,4 +45,13 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="Documentation\XML Data Wrench.bpmn">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Documentation\XML Data Wrench.bpmn.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>
