@@ -1,9 +1,9 @@
 # XmlWrench
-This XML tool helps to sanitize data block in between *valid** tags.
+This XML tool helps to sanitize data block in between *valid* tags.
 
 ## Example
 sanitizing data block between &lt;INFO&gt; tags  
-```xml
+```
 <INFO language="en">Nice & Big Info, the cat size < dog size</INFO>
 ```
 results in
@@ -24,8 +24,13 @@ XmlDataWrench does not sanitize invalid chars inside a TAG
 
 ## "Turing Machine"  
 Method call cycle, showing loops, end and exception end states  
+- main loop
+  ![XML_Wrench_Main_Loop](Documentation/XML%20Data%20Wrench.bpmn.png)  
+- tag loop
+  ![XML Wrench Tag Parser Loop](Documentation/XML%20Data%20Wrench-Tag%20and%20Rest%20Parser.png)  
+- data block loop
+  ![XML Wrench Data Parser Loop](Documentation/XML%20Data%20Wrench-Data%20block%20Parser.png)  
 
-![XML Wrench method call sequence](.github/images/XmlDataWrench.bpmn.png)
 
 ## Thanks to ...
 [Stackoverflow @potame](https://stackoverflow.com/questions/730133/what-are-invalid-characters-in-xml)
