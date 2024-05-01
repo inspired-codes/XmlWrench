@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>12</LangVersion>
+		<RootNamespace>Inspired.Codes.$(MSBuildProjectName)</RootNamespace>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>XmlWrench</Title>
+		<Authors>ppmetz</Authors>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<SignAssembly>True</SignAssembly>
+		<VersionPrefix>0.1.0</VersionPrefix>
+		<AssemblyVersion></AssemblyVersion>
+		<FileVersion></FileVersion>
+		<AssemblyName>Inspired.Codes.$(MSBuildProjectName)</AssemblyName>
+	</PropertyGroup>
+
+</Project>
