@@ -17,6 +17,7 @@
 		<AssemblyVersion></AssemblyVersion>
 		<FileVersion></FileVersion>
 		<AssemblyName>Inspired.Codes.$(MSBuildProjectName)</AssemblyName>
+		<PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
 	</PropertyGroup>
 
 </Project>
