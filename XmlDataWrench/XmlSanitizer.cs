@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Inspired.Codes.XmlDataWrench;
+namespace Ice.XmlDataWrench;
 public class XmlSanitizer
 {
     public const double FactorForOutputSize = 1.2; // estimate required buffer

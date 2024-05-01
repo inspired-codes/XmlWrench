@@ -1,4 +1,4 @@
-﻿namespace Inspired.Codes.XmlDataWrench;
+﻿namespace Ice.XmlDataWrench;
 
 public class InvalidXmlTagException : Exception
 {

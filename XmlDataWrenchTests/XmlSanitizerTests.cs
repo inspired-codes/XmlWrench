@@ -1,4 +1,4 @@
-﻿namespace Inspired.Codes.XmlDataWrench.Tests;
+﻿namespace Ice.XmlDataWrench.Tests;
 
 [TestClass()]
 public class XmlSanitizerTests

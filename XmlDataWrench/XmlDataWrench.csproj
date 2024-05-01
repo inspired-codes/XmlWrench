@@ -5,20 +5,18 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>12</LangVersion>
-		<RootNamespace>Inspired.Codes.$(MSBuildProjectName)</RootNamespace>
+		<RootNamespace>Ice.$(MSBuildProjectName)</RootNamespace>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>Inspired.Codes.XmlWrench</Title>
+		<Title>Ice.XmlWrench</Title>
 		<Authors>ppmetz</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<SignAssembly>True</SignAssembly>
-		<VersionPrefix>0.1.0</VersionPrefix>
-		<AssemblyVersion></AssemblyVersion>
-		<FileVersion></FileVersion>
-		<AssemblyName>Inspired.Codes.$(MSBuildProjectName)</AssemblyName>
+		<VersionPrefix>0.2.0</VersionPrefix>
+		<AssemblyName>Inspired-Codes.$(MSBuildProjectName)</AssemblyName>
 		<PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
-		<Copyright>pmetz@inspired.codes</Copyright>
+		<Copyright>Ice</Copyright>
 		<PackageProjectUrl>https://github.com/inspired-codes/XmlWrench</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/inspired-codes/XmlWrench</RepositoryUrl>
