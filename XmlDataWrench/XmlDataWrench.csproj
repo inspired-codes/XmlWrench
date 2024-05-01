@@ -31,17 +31,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Documentation\XML Data Wrench.bpmn" />
-	  <None Remove="Documentation\XML Data Wrench.bpmn.png" />
+	  <Compile Remove="Documentation\**" />
+	  <EmbeddedResource Remove="Documentation\**" />
+	  <None Remove="Documentation\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Documentation\XML Data Wrench.bpmn">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Documentation\XML Data Wrench.bpmn.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
 	  <Content Include="icons8-greenwrench-96.ico" />
 	</ItemGroup>
 

@@ -25,7 +25,7 @@ XmlDataWrench does not sanitize invalid chars inside a TAG
 ## "Turing Machine"  
 Method call cycle, showing loops, end and exception end states  
 
-![XML Wrench method call sequence](XmlDataWrench/Documentation/XML%20Data%20Wrench.bpmn.png)
+![XML Wrench method call sequence](.github/images/XmlDataWrench.bpmn.png)
 
 ## Thanks to ...
 [Stackoverflow @potame](https://stackoverflow.com/questions/730133/what-are-invalid-characters-in-xml)
