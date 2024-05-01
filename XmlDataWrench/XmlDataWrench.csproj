@@ -7,7 +7,7 @@
 		<LangVersion>12</LangVersion>
 		<RootNamespace>Inspired.Codes.$(MSBuildProjectName)</RootNamespace>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>XmlWrench</Title>
+		<Title>Inspired.Codes.XmlWrench</Title>
 		<Authors>ppmetz</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
@@ -18,6 +18,33 @@
 		<FileVersion></FileVersion>
 		<AssemblyName>Inspired.Codes.$(MSBuildProjectName)</AssemblyName>
 		<PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
+		<Copyright>pmetz@inspired.codes</Copyright>
+		<PackageProjectUrl>https://github.com/inspired-codes/XmlWrench</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/inspired-codes/XmlWrench</RepositoryUrl>
+		<PackageReleaseNotes>first release</PackageReleaseNotes>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<ApplicationIcon>icons8-greenwrench-96.ico</ApplicationIcon>
+		<PackageIcon>icons8-greenwrench-96.png</PackageIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="icons8-greenwrench-96.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\favicons\Web\icons8-greenwrench-96.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 </Project>
